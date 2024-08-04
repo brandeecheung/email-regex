@@ -1,0 +1,209 @@
+# Decoding the Email Regex Pattern 🔎
+
+Regular expressions (regex) are helpful tools for matching patterns within strings. In this tutorial, I will break down a regex pattern used for matching email addresses. This tutorial will explore each component to fully understand how it validates an email format.
+
+## Summary 📝
+
+The regex we'll be analyzing verifies if user input is a valid email address:
+```regex
+/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+```
+This pattern ensures the input follows the typical structure of an email address, with a local part, an "@" symbol, a domain part, and a top-level domain (TLD).
+
+## Table of Contents 📖
+
+- [Anchors](#anchors)
+- [Quantifiers](#quantifiers)
+- [Grouping Constructs](#grouping-constructs)
+- [Bracket Expressions](#bracket-expressions)
+- [Character Classes](#character-classes)
+- [Character Escapes](#character-escapes)
+- [Examples](#examples)
+- [Resources](#resources)
+
+## Regex Components ✅
+
+### Anchors
+
+Anchors mark positions in the string.
+
+- `^`: Start of the string.
+- `$`: End of the string.
+
+### Quantifiers
+
+Quantifiers specify the number of instances.
+
+- `+`: One or more times.
+
+### Grouping Constructs
+
+Grouping constructs combine parts of the regex into single units.
+
+- `()` : Creates a capturing group.
+
+Three capturing groups in this regex:
+1. `([a-z0-9_\.-]+)` - Local part of the email.
+2. `([\da-z\.-]+)` - Domain part of the email.
+3. `([a-z\.]{2,6})` - TLD.
+
+### Bracket Expressions
+Bracket expressions match any single character from a set.
+
+- `[a-z0-9_\.-]` : Matches lowercase letters, digits, underscore, period, or hyphen.
+- `[\da-z\.-]` : Matches digits, lowercase letters, period, or hyphen.
+- `[a-z\.]{2,6}` : Matches 2 to 6 lowercase letters or periods.
+
+### Character Classes
+
+Character classes specify groups of characters.
+
+- `\d`: Matches any digit.
+
+### Character Escapes
+
+A character escape allows for locating special characters that would otherwise be treated as regex symbols.
+
+- `\.` : Matches a literal period.
+
+### Examples 👀
+## Match a Valid Email:
+
+```
+const regex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+const email = "example.email@domain.com";
+console.log(regex.test(email)); // true
+```
+## Non-matching email (missing TLD):
+```
+const email2 = "example.email@domain";
+console.log(regex.test(email2)); // false
+```
+## Non-matching email (invalid characters):
+```
+const email3 = "example.email@domain@com";
+console.log(regex.test(email3)); // false
+```
+
+## Matching an email with a subdomain:
+```
+const email4 = "user@sub.domain.com";
+console.log(regex.test(email4)); // true
+```
+
+## Example code of use within a web application using all above example methods:
+```
+document.getElementById('emailForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const resultElement = document.getElementById('result');
+
+    // Email regex pattern
+    const emailRegex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+
+    let resultMessage;
+    let resultColor;
+
+    if (emailRegex.test(email)) {
+        resultMessage = 'Valid email address!';
+        resultColor = 'green';
+    } else {
+        if (email.indexOf('@') === -1 || email.lastIndexOf('.') === -1) {
+            resultMessage = 'Invalid email address: Missing "@" or "."';
+        } else if (!/[a-z0-9_\.-]+@[a-z0-9_\.-]+/i.test(email)) {
+            resultMessage = 'Invalid email address: Invalid characters';
+        } else {
+            resultMessage = 'Invalid email address!';
+        }
+        resultColor = 'red';
+    }
+
+    resultElement.textContent = resultMessage;
+    resultElement.style.color = resultColor;
+});
+```
+## Breakdown of web application example and use of regex:
+
+### Form Submission Handling
+
+The code listens for the form to be submitted and prevents the page from reloading using `event.preventDefault()`.
+
+### Get Email Input
+
+It retrieves the email address entered by the user in the input field.
+
+### Define Regex Pattern
+
+The regex pattern `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` is used to validate the email:
+- `^` and `$` ensure the pattern matches the entire string.
+- `([a-z0-9_\.-]+)` matches the local part (letters, digits, underscores, periods, hyphens).
+- `@` matches the "@" symbol.
+- `([\da-z\.-]+)` matches the domain part (digits, letters, periods, hyphens).
+- `\.([a-z\.]{2,6})` matches the top-level domain (letters, periods, 2-6 characters long).
+
+### Validation Check
+
+The code checks if the email matches the regex pattern:
+- If it matches, it sets the result message to "Valid email address!" in a specified color.
+- If it doesn't match, it further checks:
+  - If the email is missing "@" or ".", it sets the message to "Invalid email address: Missing '@' or '.'".
+  - If the email contains invalid characters, it sets the message to "Invalid email address: Invalid characters".
+  - For any other issues, it sets the message to "Invalid email address!".
+
+### Display Result
+
+It updates the page with the result message and color based on the validation.
+
+# Resources 
+## Regular Expressions (Regex)
+
+1. **[MDN Web Docs - Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)**
+   - Comprehensive guide to regex in JavaScript with explanations and examples.
+
+2. **[Regex101](https://regex101.com/)**
+   - An online tool for testing and debugging regular expressions with explanations for each part of the pattern.
+
+3. **[Regexr](https://regexr.com/)**
+   - Another online tool for regex testing, with a library of patterns and community examples.
+
+4. **[Regular Expressions Info](https://www.regular-expressions.info/)**
+   - A detailed resource covering regex syntax, usage, and examples.
+
+5. **[RegExr](https://regexr.com/)**
+   - Interactive regex tester and debugger with a community-driven regex library.
+
+## JavaScript and Regex
+
+1. **[MDN Web Docs - JavaScript Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)**
+   - Detailed documentation on using regex with JavaScript.
+
+2. **[JavaScript.info - Regular Expressions](https://javascript.info/regexp-intro)**
+   - A beginner-friendly guide to regex in JavaScript with practical examples.
+
+3. **[W3Schools - JavaScript RegExp Object](https://www.w3schools.com/js/js_obj_regexp.asp)**
+   - Overview of the `RegExp` object in JavaScript, including methods and properties.
+
+## Practical Examples
+
+1. **[Regex Patterns for Email Validation](https://emailregex.com/)**
+   - Examples and explanations of regex patterns for validating email addresses.
+
+2. **[JavaScript Email Validation Example](https://www.w3schools.com/js/js_validation.asp)**
+   - A simple example of email validation using JavaScript.
+
+3. **[How to Validate an Email Address Using JavaScript](https://www.sitepoint.com/validate-email-address-using-javascript/)**
+   - An article with examples of email validation using JavaScript and regex.
+
+4. **[JavaScript Regex Examples](https://www.tutorialspoint.com/javascript/javascript_regular_expressions.htm)**
+   - Tutorials and examples for various regex patterns in JavaScript.
+
+
+
+## Author 👩‍💻
+
+This tutorial was written by Brandee Cheung. I am a Full Stack Coding student. Find more about me on my [GitHub profile](https://github.com/brandeecheung) and my [Portfolio Page](https://brandeecheung.github.io/PortfolioPage/)
+
+Visit this tutorial here: [Decoding the Email Regex Pattern](https://github.com/brandeecheung/email-regex)
+
+
