@@ -145,11 +145,11 @@ The regex pattern `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` is used to
 ### Validation Check
 
 The code checks if the email matches the regex pattern:
-- If it matches, it sets the result message to "Valid email address!" in a specified color.
+- If it matches, it sets the result message to "Valid email address!" in green.
 - If it doesn't match, it further checks:
   - If the email is missing "@" or ".", it sets the message to "Invalid email address: Missing '@' or '.'".
   - If the email contains invalid characters, it sets the message to "Invalid email address: Invalid characters".
-  - For any other issues, it sets the message to "Invalid email address!".
+  - For any other issues, it sets the message to "Invalid email address!" in red.
 
 ### Display Result
 
